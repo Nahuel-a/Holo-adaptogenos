@@ -1,5 +1,5 @@
 from core.database import Base
-from sqlalchemy import String, Integer as Int
+from sqlalchemy import String, Integer as Int, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 class Product(Base):
@@ -11,6 +11,9 @@ class Product(Base):
     price: Mapped[float] = mapped_column(nullable=False)
     stock: Mapped[int] = mapped_column(Int, default=0, nullable=False)
     min_stock: Mapped[int] = mapped_column(Int, default=0, nullable=False)
+    unit: Mapped[Enum] = mapped_column(
+        Enum('liters', 'grams', 'units', 'meters'), default='grams'
+    )
 
 
     # Relationships
