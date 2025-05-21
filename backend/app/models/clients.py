@@ -1,11 +1,18 @@
+from typing import TYPE_CHECKING, Optional, List
 from core.database import Base
 from sqlalchemy import String, Integer as Int
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-class Client(Base):
-    __tablename__ = "clients"
+if TYPE_CHECKING:
+    from app.models.sales import Sale  # noqa: F401
+else:
+    Sale = "Sale"  # noqa: F401
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+
+class Client(Base):
+    __tablename__ = "table_client"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, unique=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     last_name: Mapped[str] = mapped_column(String(255), nullable=False)
     email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
@@ -17,6 +24,5 @@ class Client(Base):
     apartment: Mapped[str] = mapped_column(String(255), nullable=True)
     postal_code: Mapped[str] = mapped_column(String(255), nullable=False)
 
-
     # Relationships
-    
+    sales: Mapped[Optional[List[Sale]]] = relationship(back_populates="client")
