@@ -1,7 +1,14 @@
-from typing import List
+from typing import List, TYPE_CHECKING
 from core.database import Base
 from sqlalchemy import DateTime, Enum, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+if TYPE_CHECKING:
+    from app.models.suppliers import Suppliers  # noqa: F401
+    from app.models.purchasesProduct import PurchasesProducts  # noqa: F401
+else:
+    Suppliers = "Suppliers"
+    PurchasesProducts = "PurchasesProducts"  # noqa: F401
 
 class Purchases(Base):
     __tablename__ = "table_purchases"
