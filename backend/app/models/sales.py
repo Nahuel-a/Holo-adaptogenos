@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List
 from core.database import Base
 from sqlalchemy import DateTime, Enum, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -6,8 +6,10 @@ from sqlalchemy.sql import func
 
 if TYPE_CHECKING:
     from app.models.clients import Client  # noqa: F401
+    from app.models.salesProduct import SalesProducts  # noqa: F401
 else:
     Client = "Client"  # noqa: F401
+    SalesProducts = "SalesProducts"
 
 
 
@@ -29,6 +31,11 @@ class Sale(Base):
 
     # Relationships
     client: Mapped[Optional[Client]] = relationship(back_populates="sales")
+    sales_products: Mapped[List[SalesProducts]] = relationship(
+        back_populates="sales",
+        cascade="all, delete-orphan",
+        foreign_keys="SalesProducts.sales_id",
+    )
 
     
 
