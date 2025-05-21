@@ -8,11 +8,13 @@ if TYPE_CHECKING:
     from app.models.purchasesProduct import PurchasesProducts  # noqa: F401
     from app.models.production import Production  # noqa: F401
     from app.models.usedInProduction import UsedProduct  # noqa: F401
+    from app.models.salesProduct import SalesProducts  # noqa: F401
 else:
     ProductComplement = 'ProductComplement' # noqa: F401
     PurchasesProducts = 'PurchasesProducts' # noqa: F401
     Production = 'Production' # noqa: F401
     UsedProduct = 'UsedProduct' # noqa: F401
+    SalesProducts = 'SalesProducts' # noqa: F401
 
 class Product(Base):
     __tablename__ = "table_product"
@@ -45,6 +47,12 @@ class Product(Base):
         back_populates="products",
         cascade="all, delete-orphan",
         foreign_keys="[PurchasesProducts.product_id]",
+    )
+    # Sales that include this product
+    sales_products: Mapped[List[SalesProducts]] = relationship(
+        back_populates="products",
+        cascade="all, delete-orphan",
+        foreign_keys="[SalesProducts.product_id]",
     )
     # Production stages that use this product
     used_products: Mapped[List[UsedProduct]] = relationship(
