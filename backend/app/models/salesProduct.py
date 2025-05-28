@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING, List
 from core.database import Base
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
@@ -13,12 +14,12 @@ class SalesProducts(Base):
     __tablename__ = "table_sales_products"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True,unique=True)
-    sales_id: Mapped[int] = mapped_column(nullable=False)
-    product_id: Mapped[int] = mapped_column(nullable=False)
+    sales_id: Mapped[int] = mapped_column(ForeignKey("table_sale.id"), nullable=False)
+    product_id: Mapped[int] = mapped_column(ForeignKey("table_product.id"), nullable=False)
     quantity: Mapped[float] = mapped_column(nullable=False)
     unit_price: Mapped[float] = mapped_column(nullable=False)
     sub_total: Mapped[float] = mapped_column(nullable=False)
 
     # Relationships
-    sales: Mapped[Sale] = relationship(back_populates="sales_products")
+    sale: Mapped[Sale] = relationship(back_populates="sales_products")
     products: Mapped[List[Product]] = relationship(back_populates="sales_products")
