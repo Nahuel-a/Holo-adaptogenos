@@ -17,7 +17,7 @@ class Sale(Base):
     __tablename__ = "table_sale"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    client_id: Mapped[int] = mapped_column(ForeignKey('client.id'))
+    client_id: Mapped[int] = mapped_column(ForeignKey('table_client.id'))
     sale_date: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
@@ -32,7 +32,7 @@ class Sale(Base):
     # Relationships
     client: Mapped[Optional[Client]] = relationship(back_populates="sales")
     sales_products: Mapped[List[SalesProducts]] = relationship(
-        back_populates="sales",
+        back_populates="sale",
         cascade="all, delete-orphan",
         foreign_keys="SalesProducts.sales_id",
     )

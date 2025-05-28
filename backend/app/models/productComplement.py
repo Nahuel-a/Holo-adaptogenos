@@ -13,8 +13,8 @@ class ProductComplement(Base):
     __tablename__ = "product_complement"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True,unique=True)
-    product_id: Mapped[Optional[int]] = mapped_column(ForeignKey('products.id'))
-    sub_product_id: Mapped[Optional[int]] = mapped_column(ForeignKey('products.id'))
+    product_id: Mapped[Optional[int]] = mapped_column(ForeignKey('table_product.id'))
+    sub_product_id: Mapped[Optional[int]] = mapped_column(ForeignKey('table_product.id'))
     quantity_used: Mapped[float] = mapped_column(nullable=False)
 
     # Relationships

@@ -15,7 +15,7 @@ class Purchases(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     purchase_date: Mapped[DateTime] = mapped_column(DateTime, nullable=False)
-    supplier_id: Mapped[int] = mapped_column(ForeignKey("suppliers.id"), nullable=False)
+    supplier_id: Mapped[int] = mapped_column(ForeignKey("table_suppliers.id"), nullable=False)
     payment_method: Mapped[Enum] = mapped_column(
         Enum('Chash', 'Transfer', 'Debit_card')
     )
